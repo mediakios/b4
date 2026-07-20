@@ -40,6 +40,16 @@ FAILED: 0
 
 Jumlah PASS yang aktual tetap ditentukan oleh eksekusi test; kegagalan akan ditampilkan sebagai `FAIL | <nama> | <detail>`.
 
+## Verified baseline
+
+Baseline ini diverifikasi dengan B4JBuilder 10.50 dan Java 19. Project berhasil dikompilasi, JAR test dijalankan, dan menghasilkan:
+
+```text
+TOTAL: 15
+PASSED: 15
+FAILED: 0
+```
+
 ## Batasan
 
 Project ini fokus pada compile dan failure-path integration. Tidak ada knowledge fixture karena load sukses membutuhkan seluruh knowledge pack wajib yang ditetapkan loader. Compile dan runtime harus dijalankan melalui B4J IDE apabila compiler B4J tidak tersedia di lingkungan Codex.
