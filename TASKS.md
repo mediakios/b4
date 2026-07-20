@@ -146,7 +146,7 @@ Acceptance Criteria:
 
 # T005
 
-Status: Ready
+Status: Completed
 
 Module:
 
@@ -176,7 +176,7 @@ Acceptance Criteria:
 
 # T006
 
-Status: Pending
+Status: Ready
 
 Module:
 
