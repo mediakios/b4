@@ -52,7 +52,7 @@ Acceptance Criteria:
 
 # T002
 
-Status: Ready
+Status: Completed
 
 Module:
 
@@ -85,7 +85,7 @@ Acceptance Criteria:
 
 # T003
 
-Status: Pending
+Status: Ready
 
 Module:
 
