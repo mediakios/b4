@@ -37,10 +37,6 @@ Public Sub Clear As Boolean
     Return True
 End Sub
 
-Public Sub IsInitialized As Boolean
-    Return InitializationComplete
-End Sub
-
 Public Sub AddEvidence(Evidence As TEvidence) As Boolean
     If InitializationComplete = False Or Evidence.Score <= 0 Then Return False
 
