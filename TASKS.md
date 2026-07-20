@@ -319,3 +319,35 @@ Acceptance Criteria:
 - Simple host-facing API.
 - Delegates to KnowledgeRuntime.
 - No duplicated processing logic.
+
+---
+
+# T011
+
+Status: Completed
+
+Module / Test Project:
+
+`test/KnowledgeFrameworkTest/`
+
+Objective:
+
+Compile and exercise the public KnowledgeEngine API.
+
+Public API Tested:
+
+- Initialize
+- Load
+- Analyze
+- Reset
+- IsReady
+- Version
+
+Acceptance Criteria:
+
+- B4J non-UI integration project can be opened.
+- Framework sources are linked from `src` without implementation copies.
+- Tests use KnowledgeEngine as the primary API.
+- Failure paths and NA result structure are asserted.
+- PASS/FAIL output is deterministic.
+- No external dependencies.
