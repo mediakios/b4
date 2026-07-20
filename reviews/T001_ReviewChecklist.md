@@ -59,7 +59,7 @@
 ## Review Result
 
 ```text
-PENDING
+APPROVED
 ```
 
 Allowed final values:
