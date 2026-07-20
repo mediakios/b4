@@ -86,7 +86,7 @@ End Sub
 
 Private Sub EnsureInitialized
     If IsInitialized = False Then
-        Dim InitializationSucceeded As Boolean = Initialize
+        Dim InitializationSucceeded As Boolean = CallSub(Me, "Initialize")
         If InitializationSucceeded = False Then Log("KnowledgeRule initialization failed")
     End If
 End Sub

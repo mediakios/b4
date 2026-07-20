@@ -141,7 +141,10 @@ Public Sub GetLastErrors As List
 End Sub
 
 Private Sub EnsureInitialized As Boolean
-    If IsInitialized = False Then Return Initialize
+    If IsInitialized = False Then
+        Dim InitializationSucceeded As Boolean = CallSub(Me, "Initialize")
+        Return InitializationSucceeded
+    End If
     Return True
 End Sub
 

@@ -114,7 +114,7 @@ End Sub
 
 Private Sub EnsureInitialized
     If IsInitialized = False Then
-        Dim InitializationSucceeded As Boolean = Initialize
+        Dim InitializationSucceeded As Boolean = CallSub(Me, "Initialize")
         If InitializationSucceeded = False Then Log("KnowledgeSemantic initialization failed")
     End If
 End Sub
