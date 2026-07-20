@@ -29,7 +29,9 @@ Public Sub Initialize As Boolean
 End Sub
 
 Public Sub Clear As Boolean
-    If InitializationComplete = False Then Return Initialize
+    If InitializationComplete = False Then
+        If Me.Initialize = False Then Return False
+    End If
     EvidenceList.Clear
     RuleList.Clear
     InferenceRuleList.Clear
