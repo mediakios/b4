@@ -295,7 +295,7 @@ Acceptance Criteria:
 
 # T010
 
-Status: Ready
+Status: Completed
 
 Module:
 
