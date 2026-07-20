@@ -56,7 +56,7 @@ Public Sub GetEvidenceList As List
     Result.Initialize
     If Initialized = False Then Return Result
     For Each Evidence As TEvidence In EvidenceList
-        Result.Add(Evidence)
+        Result.Add(CopyEvidence(Evidence))
     Next
     Return Result
 End Sub
@@ -82,7 +82,7 @@ Public Sub GetRuleList As List
     Result.Initialize
     If Initialized = False Then Return Result
     For Each Rule As TRule In RuleList
-        Result.Add(Rule)
+        Result.Add(CopyRule(Rule))
     Next
     Return Result
 End Sub
@@ -161,6 +161,27 @@ End Sub
 Private Sub RuleEquals(First As TRule, Second As TRule) As Boolean
     Return First.Intent = Second.Intent And First.Keyword = Second.Keyword And _
         First.Category = Second.Category And First.Obyek = Second.Obyek
+End Sub
+
+Private Sub CopyEvidence(Source As TEvidence) As TEvidence
+    Dim Result As TEvidence
+    Result.Initialize
+    Result.Keyword = Source.Keyword
+    Result.Score = Source.Score
+    Result.Source = Source.Source
+    Result.Category = Source.Category
+    Result.Obyek = Source.Obyek
+    Return Result
+End Sub
+
+Private Sub CopyRule(Source As TRule) As TRule
+    Dim Result As TRule
+    Result.Initialize
+    Result.Intent = Source.Intent
+    Result.Keyword = Source.Keyword
+    Result.Category = Source.Category
+    Result.Obyek = Source.Obyek
+    Return Result
 End Sub
 
 Private Sub InferenceRuleEquals(First As TInferenceRule, Second As TInferenceRule) As Boolean
