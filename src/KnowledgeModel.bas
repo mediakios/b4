@@ -29,7 +29,7 @@ Public Sub Initialize As Boolean
 End Sub
 
 Public Sub Clear As Boolean
-    If InitializationComplete = False Then Initialize
+    If InitializationComplete = False Then Return Initialize
     EvidenceList.Clear
     RuleList.Clear
     InferenceRuleList.Clear
