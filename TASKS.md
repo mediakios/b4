@@ -351,3 +351,59 @@ Acceptance Criteria:
 - Failure paths and NA result structure are asserted.
 - PASS/FAIL output is deterministic.
 - No external dependencies.
+
+---
+
+# T012
+
+Status: Ready
+
+Module / Test Project:
+
+`test/KnowledgeFrameworkTest/`
+
+Objective:
+
+Add a minimal valid knowledge dataset and verify the complete public
+KnowledgeEngine pipeline from Load through Analyze.
+
+Required test knowledge files:
+
+- semantic_file.txt
+- obyek.txt
+- problem.txt
+- goal.txt
+- aksi.txt
+- request.txt
+- keadaan.txt
+- context.txt
+- rules.txt
+- inferensi.txt
+- kamus_gaul.csv
+- negasi.txt
+
+Test scenarios:
+
+1. Load a complete valid knowledge directory.
+2. IsReady returns True after a successful Load.
+3. Analyze a keyword-rule example and verify its candidate.
+4. Analyze a semantic-inference example and verify its candidate.
+5. Analyze an unmatched chat and verify NA.
+6. Reset after a successful Load and verify IsReady returns False.
+7. Verify returned Candidates, ScoreMap, DetailMap, CleanText, and OriginalText.
+8. Keep test output deterministic.
+
+Acceptance Criteria:
+
+- Uses only the public KnowledgeEngine API for integration assertions.
+- Test knowledge is minimal and contains no ISP-specific hard-coded logic
+  inside framework source modules.
+- Valid Load succeeds.
+- Keyword path is proven.
+- Semantic/inference path is proven.
+- NA behavior remains valid.
+- All previous 15 baseline tests continue to pass.
+- New tests pass.
+- No external dependencies.
+- T012 becomes Completed only after successful compilation and test run.
+- Do not create T013 automatically.
