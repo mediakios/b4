@@ -206,7 +206,7 @@ Acceptance Criteria:
 
 # T007
 
-Status: Ready
+Status: Completed
 
 Module:
 
@@ -237,7 +237,7 @@ Acceptance Criteria:
 
 # T008
 
-Status: Pending
+Status: Ready
 
 Module:
 
