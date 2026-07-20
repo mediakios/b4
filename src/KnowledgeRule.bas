@@ -1,7 +1,7 @@
 Sub Class_Globals
     Private RuleList As List
     Private EvidenceList As List
-    Private Initialized As Boolean
+    Private IsInitialized As Boolean
 End Sub
 
 Public Sub Initialize As Boolean
@@ -9,7 +9,7 @@ Public Sub Initialize As Boolean
     If EvidenceList.IsInitialized = False Then EvidenceList.Initialize
     RuleList.Clear
     EvidenceList.Clear
-    Initialized = True
+    IsInitialized = True
     Return True
 End Sub
 
@@ -79,7 +79,7 @@ Public Sub ClearEvidence As Boolean
 End Sub
 
 Private Sub EnsureInitialized
-    If Initialized = False Then Initialize
+    If IsInitialized = False Then Initialize
 End Sub
 
 Private Sub CopyRule(Source As KnowledgeModel.TRule) As KnowledgeModel.TRule

@@ -1,18 +1,18 @@
 Sub Class_Globals
     Private Runtime As KnowledgeRuntime
-    Private Initialized As Boolean
+    Private IsInitialized As Boolean
 End Sub
 
 Public Sub Initialize As Boolean
     Try
         If Runtime.Initialize Then
-            Initialized = True
+            IsInitialized = True
             Return True
         End If
     Catch
-        Initialized = False
+        IsInitialized = False
     End Try
-    Initialized = False
+    IsInitialized = False
     Return False
 End Sub
 
@@ -44,7 +44,7 @@ Public Sub Reset As Boolean
 End Sub
 
 Public Sub IsReady As Boolean
-    If Initialized = False Then Return False
+    If IsInitialized = False Then Return False
     Try
         Return Runtime.IsReady
     Catch
@@ -57,7 +57,7 @@ Public Sub Version As String
 End Sub
 
 Private Sub EnsureInitialized As Boolean
-    If Initialized = False Then Return Initialize
+    If IsInitialized = False Then Return Initialize
     Return True
 End Sub
 

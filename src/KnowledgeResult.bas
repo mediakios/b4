@@ -1,9 +1,9 @@
 Sub Class_Globals
-    Private Initialized As Boolean
+    Private IsInitialized As Boolean
 End Sub
 
 Public Sub Initialize As Boolean
-    Initialized = True
+    IsInitialized = True
     Return True
 End Sub
 
@@ -58,7 +58,7 @@ Public Sub ToMap(Result As KnowledgeModel.TKnowledgeResult) As Map
 End Sub
 
 Private Sub EnsureInitialized
-    If Initialized = False Then Initialize
+    If IsInitialized = False Then Initialize
 End Sub
 
 Private Sub CopyStringList(Source As List) As List

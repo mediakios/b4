@@ -4,7 +4,7 @@ Sub Class_Globals
     Type TInferenceRule(Intent As String, FeatureList As List)
     Type TKnowledgeResult(Status As String, CandidateCount As Int, Candidates As List, DetailMap As Map, ScoreMap As Map, CleanText As String, OriginalText As String)
 
-    Private Initialized As Boolean
+    Private IsInitialized As Boolean
     Private EvidenceList As List
     Private RuleList As List
     Private InferenceRuleList As List
@@ -12,18 +12,18 @@ Sub Class_Globals
 End Sub
 
 Public Sub Initialize As Boolean
-    If Initialized = False Then
+    If IsInitialized = False Then
         EvidenceList.Initialize
         RuleList.Initialize
         InferenceRuleList.Initialize
         FeatureMap.Initialize
-        Initialized = True
+        IsInitialized = True
     End If
     Return True
 End Sub
 
 Public Sub Clear As Boolean
-    If Initialized = False Then Initialize
+    If IsInitialized = False Then Initialize
     EvidenceList.Clear
     RuleList.Clear
     InferenceRuleList.Clear
@@ -32,11 +32,11 @@ Public Sub Clear As Boolean
 End Sub
 
 Public Sub IsInitialized As Boolean
-    Return Initialized
+    Return IsInitialized
 End Sub
 
 Public Sub AddEvidence(Evidence As TEvidence) As Boolean
-    If Initialized = False Or Evidence.Score <= 0 Then Return False
+    If IsInitialized = False Or Evidence.Score <= 0 Then Return False
 
     Evidence.Keyword = Evidence.Keyword.Trim
     Evidence.Source = Evidence.Source.Trim.ToLowerCase
@@ -54,7 +54,7 @@ End Sub
 Public Sub GetEvidenceList As List
     Dim Result As List
     Result.Initialize
-    If Initialized = False Then Return Result
+    If IsInitialized = False Then Return Result
     For Each Evidence As TEvidence In EvidenceList
         Result.Add(CopyEvidence(Evidence))
     Next
@@ -62,7 +62,7 @@ Public Sub GetEvidenceList As List
 End Sub
 
 Public Sub AddRule(Rule As TRule) As Boolean
-    If Initialized = False Then Return False
+    If IsInitialized = False Then Return False
 
     Rule.Intent = Rule.Intent.Trim
     Rule.Keyword = Rule.Keyword.Trim
@@ -80,7 +80,7 @@ End Sub
 Public Sub GetRuleList As List
     Dim Result As List
     Result.Initialize
-    If Initialized = False Then Return Result
+    If IsInitialized = False Then Return Result
     For Each Rule As TRule In RuleList
         Result.Add(CopyRule(Rule))
     Next
@@ -88,7 +88,7 @@ Public Sub GetRuleList As List
 End Sub
 
 Public Sub AddInferenceRule(Rule As TInferenceRule) As Boolean
-    If Initialized = False Then Return False
+    If IsInitialized = False Then Return False
     Rule.Intent = Rule.Intent.Trim
     If Rule.Intent.Length = 0 Or Rule.FeatureList.IsInitialized = False Or Rule.FeatureList.Size = 0 Then Return False
 
@@ -106,7 +106,7 @@ End Sub
 Public Sub GetInferenceRuleList As List
     Dim Result As List
     Result.Initialize
-    If Initialized = False Then Return Result
+    If IsInitialized = False Then Return Result
     For Each Rule As TInferenceRule In InferenceRuleList
         Dim RuleCopy As TInferenceRule
         RuleCopy.Initialize
@@ -118,7 +118,7 @@ Public Sub GetInferenceRuleList As List
 End Sub
 
 Public Sub SetFeature(Category As String, Values As List) As Boolean
-    If Initialized = False Or Values.IsInitialized = False Then Return False
+    If IsInitialized = False Or Values.IsInitialized = False Then Return False
     Dim NormalizedCategory As String = Category.Trim.ToLowerCase
     If NormalizedCategory.Length = 0 Then Return False
 
@@ -137,7 +137,7 @@ End Sub
 Public Sub GetFeature(Category As String) As List
     Dim Result As List
     Result.Initialize
-    If Initialized = False Then Return Result
+    If IsInitialized = False Then Return Result
     Dim NormalizedCategory As String = Category.Trim.ToLowerCase
     If NormalizedCategory.Length = 0 Or FeatureMap.ContainsKey(NormalizedCategory) = False Then Return Result
     Return CopyList(FeatureMap.Get(NormalizedCategory))
@@ -146,7 +146,7 @@ End Sub
 Public Sub GetFeatureMap As Map
     Dim Result As Map
     Result.Initialize
-    If Initialized = False Then Return Result
+    If IsInitialized = False Then Return Result
     For Each Category As String In FeatureMap.Keys
         Result.Put(Category, CopyList(FeatureMap.Get(Category)))
     Next

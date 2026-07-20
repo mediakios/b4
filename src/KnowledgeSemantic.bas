@@ -1,7 +1,7 @@
 Sub Class_Globals
     Private SemanticDictionary As Map
     Private FeatureMap As Map
-    Private Initialized As Boolean
+    Private IsInitialized As Boolean
 End Sub
 
 Public Sub Initialize As Boolean
@@ -9,7 +9,7 @@ Public Sub Initialize As Boolean
     If FeatureMap.IsInitialized = False Then FeatureMap.Initialize
     SemanticDictionary.Clear
     PrepareEmptyFeatures
-    Initialized = True
+    IsInitialized = True
     Return True
 End Sub
 
@@ -107,7 +107,7 @@ Public Sub HasFeature(Category As String, Value As String) As Boolean
 End Sub
 
 Private Sub EnsureInitialized
-    If Initialized = False Then Initialize
+    If IsInitialized = False Then Initialize
 End Sub
 
 Private Sub PrepareEmptyFeatures

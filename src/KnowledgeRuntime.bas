@@ -10,7 +10,7 @@ Sub Class_Globals
     Private NegationWords As List
     Private LastErrorList As List
     Private Ready As Boolean
-    Private Initialized As Boolean
+    Private IsInitialized As Boolean
 End Sub
 
 Public Sub Initialize As Boolean
@@ -19,7 +19,7 @@ Public Sub Initialize As Boolean
     If NegationWords.IsInitialized = False Then NegationWords.Initialize
     NegationWords.Clear
     Ready = False
-    Initialized = False
+    IsInitialized = False
 
     Dim CurrentModule As String = "KnowledgeModel"
     Try
@@ -42,7 +42,7 @@ Public Sub Initialize As Boolean
         AddError("INITIALIZE_FAILED|" & CurrentModule)
         Return False
     End Try
-    Initialized = True
+    IsInitialized = True
     Return True
 End Sub
 
@@ -135,7 +135,7 @@ Public Sub GetLastErrors As List
 End Sub
 
 Private Sub EnsureInitialized As Boolean
-    If Initialized = False Then Return Initialize
+    If IsInitialized = False Then Return Initialize
     Return True
 End Sub
 

@@ -16,10 +16,10 @@ End Sub
 
 Sub AppStart (Args() As String)
     Dim Engine As KnowledgeEngine
-    Dim Initialized As Boolean = Engine.Initialize
-    AssertTrue("Initialize", Initialized)
+    Dim InitializationSucceeded As Boolean = Engine.Initialize
+    AssertTrue("Initialize", InitializationSucceeded)
 
-    If Initialized Then
+    If InitializationSucceeded Then
         AssertEquals("Version", "1.0.0", Engine.Version)
         AssertTrue("Initial ready state", Engine.IsReady = False)
 

@@ -1,14 +1,14 @@
 Sub Class_Globals
     Private VariantMap As Map
     Private NegationRadius As Int
-    Private Initialized As Boolean
+    Private IsInitialized As Boolean
 End Sub
 
 Public Sub Initialize As Boolean
     If VariantMap.IsInitialized = False Then VariantMap.Initialize
     VariantMap.Clear
     NegationRadius = 3
-    Initialized = True
+    IsInitialized = True
     Return True
 End Sub
 
@@ -102,7 +102,7 @@ Public Sub IsNegated(Tokens As List, TokenIndex As Int, NegationWords As List) A
 End Sub
 
 Private Sub EnsureInitialized
-    If Initialized = False Then Initialize
+    If IsInitialized = False Then Initialize
 End Sub
 
 Private Sub NormalizeSeparators(Text As String) As String

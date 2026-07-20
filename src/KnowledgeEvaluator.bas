@@ -1,12 +1,12 @@
 Sub Class_Globals
     Private EvidenceList As List
-    Private Initialized As Boolean
+    Private IsInitialized As Boolean
 End Sub
 
 Public Sub Initialize As Boolean
     If EvidenceList.IsInitialized = False Then EvidenceList.Initialize
     EvidenceList.Clear
-    Initialized = True
+    IsInitialized = True
     Return True
 End Sub
 
@@ -113,7 +113,7 @@ Public Sub EvaluateFinal(CleanText As String, OriginalText As String) As Knowled
 End Sub
 
 Private Sub EnsureInitialized
-    If Initialized = False Then Initialize
+    If IsInitialized = False Then Initialize
 End Sub
 
 Private Sub CopyEvidence(Source As KnowledgeModel.TEvidence) As KnowledgeModel.TEvidence
