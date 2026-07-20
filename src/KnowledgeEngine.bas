@@ -31,12 +31,18 @@ Public Sub Load(BasePath As String) As Boolean
     End Try
 End Sub
 
-Public Sub Analyze(ChatText As String) As TKnowledgeResult
+Public Sub Analyze(ChatText As Object) As TKnowledgeResult
+    Dim SafeChatText As String
+    If ChatText = Null Then
+        SafeChatText = ""
+    Else
+        SafeChatText = ChatText
+    End If
     Try
-        If EnsureInitialized = False Then Return CreateFallbackNA(ChatText)
-        Return Runtime.Process(ChatText)
+        If EnsureInitialized = False Then Return CreateFallbackNA(SafeChatText)
+        Return Runtime.Process(SafeChatText)
     Catch
-        Return CreateFallbackNA(ChatText)
+        Return CreateFallbackNA(SafeChatText)
     End Try
 End Sub
 
