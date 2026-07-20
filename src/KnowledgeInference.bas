@@ -102,7 +102,10 @@ Public Sub ClearEvidence As Boolean
 End Sub
 
 Private Sub EnsureInitialized
-    If IsInitialized = False Then Initialize
+    If IsInitialized = False Then
+        Dim InitializationSucceeded As Boolean = Initialize
+        If InitializationSucceeded = False Then Log("KnowledgeInference initialization failed")
+    End If
 End Sub
 
 Private Sub CopyInferenceRule(Source As TInferenceRule) As TInferenceRule

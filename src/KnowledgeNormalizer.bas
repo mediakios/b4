@@ -108,7 +108,10 @@ Public Sub IsNegated(Tokens As List, TokenIndex As Int, NegationWords As List) A
 End Sub
 
 Private Sub EnsureInitialized
-    If IsInitialized = False Then Initialize
+    If IsInitialized = False Then
+        Dim InitializationSucceeded As Boolean = Initialize
+        If InitializationSucceeded = False Then Log("KnowledgeNormalizer initialization failed")
+    End If
 End Sub
 
 Private Sub NormalizeSeparators(Text As String) As String

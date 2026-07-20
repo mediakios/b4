@@ -113,7 +113,10 @@ Public Sub HasFeature(Category As String, Value As String) As Boolean
 End Sub
 
 Private Sub EnsureInitialized
-    If IsInitialized = False Then Initialize
+    If IsInitialized = False Then
+        Dim InitializationSucceeded As Boolean = Initialize
+        If InitializationSucceeded = False Then Log("KnowledgeSemantic initialization failed")
+    End If
 End Sub
 
 Private Sub PrepareEmptyFeatures

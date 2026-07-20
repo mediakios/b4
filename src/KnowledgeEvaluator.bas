@@ -119,7 +119,10 @@ Public Sub EvaluateFinal(CleanText As String, OriginalText As String) As TKnowle
 End Sub
 
 Private Sub EnsureInitialized
-    If IsInitialized = False Then Initialize
+    If IsInitialized = False Then
+        Dim InitializationSucceeded As Boolean = Initialize
+        If InitializationSucceeded = False Then Log("KnowledgeEvaluator initialization failed")
+    End If
 End Sub
 
 Private Sub CopyEvidence(Source As TEvidence) As TEvidence

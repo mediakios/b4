@@ -30,7 +30,11 @@ End Sub
 
 Public Sub Clear As Boolean
     If InitializationComplete = False Then
-        If Me.Initialize = False Then Return False
+        EvidenceList.Initialize
+        RuleList.Initialize
+        InferenceRuleList.Initialize
+        FeatureMap.Initialize
+        InitializationComplete = True
     End If
     EvidenceList.Clear
     RuleList.Clear

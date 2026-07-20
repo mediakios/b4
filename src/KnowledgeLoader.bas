@@ -166,7 +166,7 @@ Private Sub SplitPreservingEmptyColumns(Line As String, Delimiter As String) As 
     Dim Result As List
     Result.Initialize
     Dim Sentinel As String = Chr(1)
-    Dim Parts() As String = Regex.Split(Regex.Escape(Delimiter), Line & Delimiter & Sentinel)
+    Dim Parts() As String = Regex.Split(EscapeRegexLiteral(Delimiter), Line & Delimiter & Sentinel)
     For Index = 0 To Parts.Length - 2
         Result.Add(Parts(Index).Trim)
     Next
@@ -231,7 +231,7 @@ Private Sub AddIntentRulesToModel(Model As KnowledgeModel, Rows As List, FileNam
             AddLoadError("INVALID_ROW|" & FileName & "|" & (RowIndex + 1))
         Else
             Dim Intent As String = Columns.Get(0)
-            Dim Keywords() As String = Regex.Split(Regex.Escape(","), Columns.Get(1))
+            Dim Keywords() As String = Regex.Split(EscapeRegexLiteral(","), Columns.Get(1))
             If Intent.Length = 0 Or Keywords.Length = 0 Then
                 AddLoadError("INVALID_ROW|" & FileName & "|" & (RowIndex + 1))
             Else
@@ -277,4 +277,15 @@ Private Sub InferenceRuleExists(Model As KnowledgeModel, Candidate As TInference
         End If
     Next
     Return False
+End Sub
+
+Private Sub EscapeRegexLiteral(Value As String) As String
+    Dim Result As String
+    Dim MetaCharacters As String = "\.^$|?*+()[]{}"
+    For Index = 0 To Value.Length - 1
+        Dim Character As String = Value.CharAt(Index)
+        If MetaCharacters.Contains(Character) Then Result = Result & "\"
+        Result = Result & Character
+    Next
+    Return Result
 End Sub
