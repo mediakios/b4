@@ -23,8 +23,8 @@ Public Sub SetInferenceRules(Rules As List) As Boolean
     EnsureInitialized
     InferenceRuleList.Clear
     If Rules.IsInitialized Then
-        For Each SourceRule As KnowledgeModel.TInferenceRule In Rules
-            Dim StoredRule As KnowledgeModel.TInferenceRule = CopyInferenceRule(SourceRule)
+        For Each SourceRule As TInferenceRule In Rules
+            Dim StoredRule As TInferenceRule = CopyInferenceRule(SourceRule)
             If StoredRule.Intent.Length > 0 And StoredRule.FeatureList.Size > 0 Then
                 InferenceRuleList.Add(StoredRule)
             End If
@@ -39,9 +39,9 @@ Public Sub Evaluate(FeatureMap As Map) As Boolean
     ClearEvidence
     If FeatureMap.IsInitialized = False Then Return True
 
-    For Each Rule As KnowledgeModel.TInferenceRule In InferenceRuleList
+    For Each Rule As TInferenceRule In InferenceRuleList
         If MatchRule(FeatureMap, Rule) Then
-            Dim Evidence As KnowledgeModel.TEvidence
+            Dim Evidence As TEvidence
             Evidence.Initialize
             Evidence.Keyword = Rule.Intent
             Evidence.Score = CountValidFeatures(Rule.FeatureList)
@@ -74,7 +74,7 @@ Public Sub MatchFeature(FeatureMap As Map, FeatureExpression As String) As Boole
     Return False
 End Sub
 
-Public Sub MatchRule(FeatureMap As Map, Rule As KnowledgeModel.TInferenceRule) As Boolean
+Public Sub MatchRule(FeatureMap As Map, Rule As TInferenceRule) As Boolean
     EnsureInitialized
     If NormalizeValue(Rule.Intent).Length = 0 Then Return False
     If Rule.FeatureList.IsInitialized = False Or Rule.FeatureList.Size = 0 Then Return False
@@ -89,7 +89,7 @@ Public Sub GetEvidence As List
     EnsureInitialized
     Dim Result As List
     Result.Initialize
-    For Each Evidence As KnowledgeModel.TEvidence In EvidenceList
+    For Each Evidence As TEvidence In EvidenceList
         Result.Add(CopyEvidence(Evidence))
     Next
     Return Result
@@ -105,8 +105,8 @@ Private Sub EnsureInitialized
     If IsInitialized = False Then Initialize
 End Sub
 
-Private Sub CopyInferenceRule(Source As KnowledgeModel.TInferenceRule) As KnowledgeModel.TInferenceRule
-    Dim Result As KnowledgeModel.TInferenceRule
+Private Sub CopyInferenceRule(Source As TInferenceRule) As TInferenceRule
+    Dim Result As TInferenceRule
     Result.Initialize
     Result.Intent = NormalizeValue(Source.Intent)
     Result.FeatureList.Initialize
@@ -119,8 +119,8 @@ Private Sub CopyInferenceRule(Source As KnowledgeModel.TInferenceRule) As Knowle
     Return Result
 End Sub
 
-Private Sub CopyEvidence(Source As KnowledgeModel.TEvidence) As KnowledgeModel.TEvidence
-    Dim Result As KnowledgeModel.TEvidence
+Private Sub CopyEvidence(Source As TEvidence) As TEvidence
+    Dim Result As TEvidence
     Result.Initialize
     Result.Keyword = Source.Keyword
     Result.Score = Source.Score

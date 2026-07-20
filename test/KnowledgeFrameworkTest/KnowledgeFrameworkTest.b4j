@@ -37,7 +37,7 @@ Sub AppStart (Args() As String)
         AssertEquals("Version", "1.0.0", Engine.Version)
         AssertTrue("Initial ready state", Engine.IsReady = False)
 
-        Dim BeforeLoad As KnowledgeModel.TKnowledgeResult = Engine.Analyze("wifi mati")
+        Dim BeforeLoad As TKnowledgeResult = Engine.Analyze("wifi mati")
         AssertEquals("Analyze before Load status", "NA", BeforeLoad.Status)
         AssertEquals("Analyze before Load candidate count", 0, BeforeLoad.CandidateCount)
         AssertTrue("Analyze before Load candidates", IsEmptyList(BeforeLoad.Candidates))
@@ -52,17 +52,17 @@ Sub AppStart (Args() As String)
         AssertTrue("Reset", Engine.Reset)
         AssertTrue("Ready after Reset", Engine.IsReady = False)
 
-        Dim EmptyResult As KnowledgeModel.TKnowledgeResult = Engine.Analyze("")
+        Dim EmptyResult As TKnowledgeResult = Engine.Analyze("")
         AssertValidEmptyResult("Analyze empty", EmptyResult)
 
-        Dim NullResult As KnowledgeModel.TKnowledgeResult = Engine.Analyze(Null)
+        Dim NullResult As TKnowledgeResult = Engine.Analyze(Null)
         AssertValidEmptyResult("Analyze Null", NullResult)
     End If
 
     PrintSummary
 End Sub
 
-Private Sub AssertValidEmptyResult(TestName As String, Result As KnowledgeModel.TKnowledgeResult)
+Private Sub AssertValidEmptyResult(TestName As String, Result As TKnowledgeResult)
     Dim IsValid As Boolean = Result.Status = "NA" And Result.CandidateCount = 0 And Result.OriginalText = ""
     If IsValid Then IsValid = IsEmptyList(Result.Candidates)
     If IsValid Then IsValid = IsEmptyMap(Result.DetailMap)

@@ -89,7 +89,7 @@ Public Sub LoadKnowledge(BasePath As String) As Boolean
     Return True
 End Sub
 
-Public Sub Process(ChatText As String) As KnowledgeModel.TKnowledgeResult
+Public Sub Process(ChatText As String) As TKnowledgeResult
     EnsureInitialized
     Dim OriginalText As String = PreserveText(ChatText)
     Dim CleanText As String
@@ -110,7 +110,7 @@ Public Sub Process(ChatText As String) As KnowledgeModel.TKnowledgeResult
         If Evaluator.AddEvidenceList(RuleEngine.GetEvidence) = False Then Return CreateProcessFailure("KnowledgeEvaluator", CleanText, OriginalText)
         If Evaluator.AddEvidenceList(InferenceEngine.GetEvidence) = False Then Return CreateProcessFailure("KnowledgeEvaluator", CleanText, OriginalText)
 
-        Dim StructuredResult As KnowledgeModel.TKnowledgeResult = Evaluator.EvaluateFinal(CleanText, OriginalText)
+        Dim StructuredResult As TKnowledgeResult = Evaluator.EvaluateFinal(CleanText, OriginalText)
         Return ResultBuilder.CreateResult(StructuredResult.Status, StructuredResult.Candidates, _
             StructuredResult.DetailMap, StructuredResult.ScoreMap, StructuredResult.CleanText, _
             StructuredResult.OriginalText)
@@ -228,7 +228,7 @@ Private Sub ConfigurationFailed(ModuleName As String) As Boolean
     Return False
 End Sub
 
-Private Sub CreateProcessFailure(ModuleName As String, CleanText As String, OriginalText As String) As KnowledgeModel.TKnowledgeResult
+Private Sub CreateProcessFailure(ModuleName As String, CleanText As String, OriginalText As String) As TKnowledgeResult
     AddError("PROCESS_FAILED|" & ModuleName)
     Return ResultBuilder.CreateNAResult(CleanText, OriginalText)
 End Sub

@@ -13,9 +13,9 @@ Public Sub Initialize As Boolean
     Return True
 End Sub
 
-Public Sub CreateResult(Status As String, Candidates As List, DetailMap As Map, ScoreMap As Map, CleanText As String, OriginalText As String) As KnowledgeModel.TKnowledgeResult
+Public Sub CreateResult(Status As String, Candidates As List, DetailMap As Map, ScoreMap As Map, CleanText As String, OriginalText As String) As TKnowledgeResult
     EnsureInitialized
-    Dim Result As KnowledgeModel.TKnowledgeResult
+    Dim Result As TKnowledgeResult
     Result.Initialize
     Result.Status = NormalizeStatus(Status)
     Result.Candidates = CopyStringList(Candidates)
@@ -27,7 +27,7 @@ Public Sub CreateResult(Status As String, Candidates As List, DetailMap As Map, 
     Return Result
 End Sub
 
-Public Sub CreateNAResult(CleanText As String, OriginalText As String) As KnowledgeModel.TKnowledgeResult
+Public Sub CreateNAResult(CleanText As String, OriginalText As String) As TKnowledgeResult
     Dim Candidates As List
     Candidates.Initialize
     Dim Details As Map
@@ -37,11 +37,11 @@ Public Sub CreateNAResult(CleanText As String, OriginalText As String) As Knowle
     Return CreateResult("NA", Candidates, Details, Scores, CleanText, OriginalText)
 End Sub
 
-Public Sub CreateMultiResult(Candidates As List, DetailMap As Map, ScoreMap As Map, CleanText As String, OriginalText As String) As KnowledgeModel.TKnowledgeResult
+Public Sub CreateMultiResult(Candidates As List, DetailMap As Map, ScoreMap As Map, CleanText As String, OriginalText As String) As TKnowledgeResult
     Return CreateResult("Multi", Candidates, DetailMap, ScoreMap, CleanText, OriginalText)
 End Sub
 
-Public Sub ToDelimitedText(Result As KnowledgeModel.TKnowledgeResult) As String
+Public Sub ToDelimitedText(Result As TKnowledgeResult) As String
     EnsureInitialized
     Return EscapeDelimited(Result.Status) & ";" & Result.CandidateCount & ";" & _
         SerializeCandidates(Result.Candidates) & ";" & SerializeDetailMap(Result.DetailMap) & ";" & _
@@ -49,7 +49,7 @@ Public Sub ToDelimitedText(Result As KnowledgeModel.TKnowledgeResult) As String
         EscapeDelimited(Result.OriginalText)
 End Sub
 
-Public Sub ToMap(Result As KnowledgeModel.TKnowledgeResult) As Map
+Public Sub ToMap(Result As TKnowledgeResult) As Map
     EnsureInitialized
     Dim Output As Map
     Output.Initialize

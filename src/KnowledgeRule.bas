@@ -23,8 +23,8 @@ Public Sub SetRules(Rules As List) As Boolean
     EnsureInitialized
     RuleList.Clear
     If Rules.IsInitialized Then
-        For Each SourceRule As KnowledgeModel.TRule In Rules
-            Dim StoredRule As KnowledgeModel.TRule = CopyRule(SourceRule)
+        For Each SourceRule As TRule In Rules
+            Dim StoredRule As TRule = CopyRule(SourceRule)
             If StoredRule.Intent.Length > 0 And StoredRule.Keyword.Length > 0 Then
                 RuleList.Add(StoredRule)
             End If
@@ -39,9 +39,9 @@ Public Sub Evaluate(Tokens As List, NegationWords As List) As Boolean
     ClearEvidence
     If Tokens.IsInitialized = False Then Return True
 
-    For Each Rule As KnowledgeModel.TRule In RuleList
+    For Each Rule As TRule In RuleList
         If MatchRule(Tokens, Rule, NegationWords) Then
-            Dim Evidence As KnowledgeModel.TEvidence
+            Dim Evidence As TEvidence
             Evidence.Initialize
             Evidence.Keyword = Rule.Keyword
             Evidence.Score = 1
@@ -54,7 +54,7 @@ Public Sub Evaluate(Tokens As List, NegationWords As List) As Boolean
     Return True
 End Sub
 
-Public Sub MatchRule(Tokens As List, Rule As KnowledgeModel.TRule, NegationWords As List) As Boolean
+Public Sub MatchRule(Tokens As List, Rule As TRule, NegationWords As List) As Boolean
     EnsureInitialized
     If Tokens.IsInitialized = False Then Return False
     Dim Intent As String = NormalizeValue(Rule.Intent)
@@ -72,7 +72,7 @@ Public Sub GetEvidence As List
     EnsureInitialized
     Dim Result As List
     Result.Initialize
-    For Each Evidence As KnowledgeModel.TEvidence In EvidenceList
+    For Each Evidence As TEvidence In EvidenceList
         Result.Add(CopyEvidence(Evidence))
     Next
     Return Result
@@ -88,8 +88,8 @@ Private Sub EnsureInitialized
     If IsInitialized = False Then Initialize
 End Sub
 
-Private Sub CopyRule(Source As KnowledgeModel.TRule) As KnowledgeModel.TRule
-    Dim Result As KnowledgeModel.TRule
+Private Sub CopyRule(Source As TRule) As TRule
+    Dim Result As TRule
     Result.Initialize
     Result.Intent = NormalizeValue(Source.Intent)
     Result.Keyword = NormalizeValue(Source.Keyword)
@@ -98,8 +98,8 @@ Private Sub CopyRule(Source As KnowledgeModel.TRule) As KnowledgeModel.TRule
     Return Result
 End Sub
 
-Private Sub CopyEvidence(Source As KnowledgeModel.TEvidence) As KnowledgeModel.TEvidence
-    Dim Result As KnowledgeModel.TEvidence
+Private Sub CopyEvidence(Source As TEvidence) As TEvidence
+    Dim Result As TEvidence
     Result.Initialize
     Result.Keyword = Source.Keyword
     Result.Score = Source.Score

@@ -124,10 +124,10 @@ Public Sub LoadAll(Model As KnowledgeModel) As Boolean
     If LoadErrorList.Size > 0 Then Return False
 
     Model.Clear
-    For Each Rule As KnowledgeModel.TRule In StagedModel.GetRuleList
+    For Each Rule As TRule In StagedModel.GetRuleList
         Model.AddRule(Rule)
     Next
-    For Each InferenceRule As KnowledgeModel.TInferenceRule In StagedModel.GetInferenceRuleList
+    For Each InferenceRule As TInferenceRule In StagedModel.GetInferenceRuleList
         Model.AddInferenceRule(InferenceRule)
     Next
     Dim Features As Map = StagedModel.GetFeatureMap
@@ -185,7 +185,7 @@ Private Sub AddRulesToModel(Model As KnowledgeModel, Rows As List, FileName As S
         If Columns.Size <> 4 Then
             AddLoadError("INVALID_ROW|" & FileName & "|" & (RowIndex + 1))
         Else
-            Dim Rule As KnowledgeModel.TRule
+            Dim Rule As TRule
             Rule.Initialize
             Rule.Keyword = Columns.Get(0)
             Rule.Intent = Columns.Get(1)
@@ -207,7 +207,7 @@ Private Sub AddInferenceRulesToModel(Model As KnowledgeModel, Rows As List, File
             AddLoadError("INVALID_ROW|" & FileName & "|" & (RowIndex + 1))
         Else
             Dim Intent As String = Columns.Get(0)
-            Dim Rule As KnowledgeModel.TInferenceRule
+            Dim Rule As TInferenceRule
             Rule.Initialize
             Rule.Intent = Intent
             Rule.FeatureList.Initialize
@@ -236,7 +236,7 @@ Private Sub AddIntentRulesToModel(Model As KnowledgeModel, Rows As List, FileNam
                 AddLoadError("INVALID_ROW|" & FileName & "|" & (RowIndex + 1))
             Else
                 For Each Keyword As String In Keywords
-                    Dim Rule As KnowledgeModel.TRule
+                    Dim Rule As TRule
                     Rule.Initialize
                     Rule.Intent = Intent
                     Rule.Keyword = Keyword.Trim
@@ -258,16 +258,16 @@ Private Sub ValidateColumnCount(Rows As List, ExpectedCount As Int, FileName As 
     Next
 End Sub
 
-Private Sub RuleExists(Model As KnowledgeModel, Candidate As KnowledgeModel.TRule) As Boolean
-    For Each Existing As KnowledgeModel.TRule In Model.GetRuleList
+Private Sub RuleExists(Model As KnowledgeModel, Candidate As TRule) As Boolean
+    For Each Existing As TRule In Model.GetRuleList
         If Existing.Intent = Candidate.Intent And Existing.Keyword = Candidate.Keyword And _
             Existing.Category = Candidate.Category And Existing.Obyek = Candidate.Obyek Then Return True
     Next
     Return False
 End Sub
 
-Private Sub InferenceRuleExists(Model As KnowledgeModel, Candidate As KnowledgeModel.TInferenceRule) As Boolean
-    For Each Existing As KnowledgeModel.TInferenceRule In Model.GetInferenceRuleList
+Private Sub InferenceRuleExists(Model As KnowledgeModel, Candidate As TInferenceRule) As Boolean
+    For Each Existing As TInferenceRule In Model.GetInferenceRuleList
         If Existing.Intent = Candidate.Intent And Existing.FeatureList.Size = Candidate.FeatureList.Size Then
             Dim SameRule As Boolean = True
             For Index = 0 To Existing.FeatureList.Size - 1

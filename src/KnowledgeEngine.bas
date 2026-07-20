@@ -31,7 +31,7 @@ Public Sub Load(BasePath As String) As Boolean
     End Try
 End Sub
 
-Public Sub Analyze(ChatText As String) As KnowledgeModel.TKnowledgeResult
+Public Sub Analyze(ChatText As String) As TKnowledgeResult
     Try
         If EnsureInitialized = False Then Return CreateFallbackNA(ChatText)
         Return Runtime.Process(ChatText)
@@ -67,8 +67,8 @@ Private Sub EnsureInitialized As Boolean
     Return True
 End Sub
 
-Private Sub CreateFallbackNA(ChatText As String) As KnowledgeModel.TKnowledgeResult
-    Dim Result As KnowledgeModel.TKnowledgeResult
+Private Sub CreateFallbackNA(ChatText As String) As TKnowledgeResult
+    Dim Result As TKnowledgeResult
     Result.Initialize
     Result.Status = "NA"
     Result.CandidateCount = 0

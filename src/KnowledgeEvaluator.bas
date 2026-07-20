@@ -26,8 +26,8 @@ Public Sub AddEvidenceList(EvidenceItems As List) As Boolean
     EnsureInitialized
     If EvidenceItems.IsInitialized = False Then Return True
 
-    For Each SourceEvidence As KnowledgeModel.TEvidence In EvidenceItems
-        Dim StoredEvidence As KnowledgeModel.TEvidence = CopyEvidence(SourceEvidence)
+    For Each SourceEvidence As TEvidence In EvidenceItems
+        Dim StoredEvidence As TEvidence = CopyEvidence(SourceEvidence)
         If StoredEvidence.Score > 0 And StoredEvidence.Source.Length > 0 And StoredEvidence.Keyword.Length > 0 Then
             EvidenceList.Add(StoredEvidence)
         End If
@@ -42,7 +42,7 @@ Public Sub BuildScoreMap As Map
     Dim Candidates As List = CandidateOrder
     For Each Candidate As String In Candidates
         Dim TotalScore As Int
-        For Each Evidence As KnowledgeModel.TEvidence In EvidenceList
+        For Each Evidence As TEvidence In EvidenceList
             If Evidence.Source = "inference" And Evidence.Keyword = Candidate Then
                 TotalScore = TotalScore + Evidence.Score
             End If
@@ -63,7 +63,7 @@ Public Sub BuildDetailMap As Map
         Result.Put(Candidate, Details)
     Next
 
-    For Each Evidence As KnowledgeModel.TEvidence In EvidenceList
+    For Each Evidence As TEvidence In EvidenceList
         If Evidence.Source = "inference" And Evidence.Keyword.Length > 0 Then
             Dim CandidateDetails As List = Result.Get(Evidence.Keyword)
             CandidateDetails.Add(Evidence.Source & "|" & Evidence.Keyword & "|" & Evidence.Score & "|" & _
@@ -97,9 +97,9 @@ Public Sub GetQualifiedCandidates As List
     Return Result
 End Sub
 
-Public Sub EvaluateFinal(CleanText As String, OriginalText As String) As KnowledgeModel.TKnowledgeResult
+Public Sub EvaluateFinal(CleanText As String, OriginalText As String) As TKnowledgeResult
     EnsureInitialized
-    Dim Result As KnowledgeModel.TKnowledgeResult
+    Dim Result As TKnowledgeResult
     Result.Initialize
     Result.ScoreMap = BuildScoreMap
     Result.DetailMap = BuildDetailMap
@@ -122,8 +122,8 @@ Private Sub EnsureInitialized
     If IsInitialized = False Then Initialize
 End Sub
 
-Private Sub CopyEvidence(Source As KnowledgeModel.TEvidence) As KnowledgeModel.TEvidence
-    Dim Result As KnowledgeModel.TEvidence
+Private Sub CopyEvidence(Source As TEvidence) As TEvidence
+    Dim Result As TEvidence
     Result.Initialize
     Result.Keyword = NormalizeValue(Source.Keyword)
     Result.Score = Source.Score
@@ -136,7 +136,7 @@ End Sub
 Private Sub CandidateOrder As List
     Dim Result As List
     Result.Initialize
-    For Each Evidence As KnowledgeModel.TEvidence In EvidenceList
+    For Each Evidence As TEvidence In EvidenceList
         If Evidence.Source = "inference" And Evidence.Keyword.Length > 0 And Result.IndexOf(Evidence.Keyword) = -1 Then
             Result.Add(Evidence.Keyword)
         End If
