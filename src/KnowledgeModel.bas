@@ -1,3 +1,9 @@
+B4J=true
+Group=Default Group
+ModulesStructureVersion=1
+Type=Class
+Version=10.5
+@EndOfDesignText@
 Sub Class_Globals
     Type TEvidence(Keyword As String, Score As Int, Source As String, Category As String, Obyek As String)
     Type TRule(Intent As String, Keyword As String, Category As String, Obyek As String)

@@ -1,3 +1,9 @@
+B4J=true
+Group=Default Group
+ModulesStructureVersion=1
+Type=Class
+Version=10.5
+@EndOfDesignText@
 Sub Class_Globals
     Private Model As KnowledgeModel
     Private Loader As KnowledgeLoader
