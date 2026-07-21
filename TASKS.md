@@ -407,3 +407,38 @@ Acceptance Criteria:
 - No external dependencies.
 - T012 becomes Completed only after successful compilation and test run.
 - Do not create T013 automatically.
+
+---
+
+# T013
+
+Status: Ready
+
+Objective:
+
+Add `business_dictionary.csv` as the canonical source for business vocabulary,
+variants, and semantic categories.
+
+Scope:
+
+- `src/KnowledgeLoader.bas`
+- `src/KnowledgeRuntime.bas`
+- `test/KnowledgeFrameworkTest/`
+
+Requirements:
+
+1. Define columns: Canonical, Variants, Kategori, Catatan, Prioritas, Status.
+2. Ignore blank/comment lines.
+3. Load only `Status=active`.
+4. Build deterministic variant-to-canonical map.
+5. Build semantic category map.
+6. Detect conflicting variants.
+7. Report malformed rows using existing load errors.
+8. Preserve backward compatibility.
+9. Do not change the public `KnowledgeEngine` API.
+
+Acceptance Criteria:
+
+- T012 stays Completed.
+- T013 becomes the only Ready task.
+- Do not implement T013 as part of this task definition update.
