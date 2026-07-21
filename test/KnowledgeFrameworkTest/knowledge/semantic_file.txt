@@ -1,0 +1,7 @@
+obyek.txt
+problem.txt
+goal.txt
+aksi.txt
+request.txt
+keadaan.txt
+context.txt

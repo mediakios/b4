@@ -356,7 +356,7 @@ Acceptance Criteria:
 
 # T012
 
-Status: Ready
+Status: Completed
 
 Module / Test Project:
 

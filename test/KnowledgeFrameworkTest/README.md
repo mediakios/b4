@@ -24,6 +24,12 @@ Test mencakup:
 - kegagalan load pada path yang tidak ada;
 - `Reset`;
 - keamanan input string kosong dan `Null`.
+- load dataset valid dan status ready;
+- jalur keyword-rule dengan kandidat tunggal;
+- jalur semantic/inference dengan kandidat tunggal;
+- hasil NA untuk chat yang tidak cocok;
+- struktur `Candidates`, `ScoreMap`, `DetailMap`, `CleanText`, dan `OriginalText`;
+- reset setelah load berhasil.
 
 ## Expected output
 
@@ -33,8 +39,8 @@ Output berasal dari assertion aktual dan berbentuk:
 PASS | Initialize
 PASS | Version
 ...
-TOTAL: 15
-PASSED: 15
+TOTAL: 34
+PASSED: 34
 FAILED: 0
 ```
 
@@ -52,4 +58,4 @@ FAILED: 0
 
 ## Batasan
 
-Project ini fokus pada compile dan failure-path integration. Tidak ada knowledge fixture karena load sukses membutuhkan seluruh knowledge pack wajib yang ditetapkan loader. Compile dan runtime harus dijalankan melalui B4J IDE apabila compiler B4J tidak tersedia di lingkungan Codex.
+Fixture minimal berada di direktori `knowledge` dan hanya berisi pengetahuan netral untuk pengujian pipeline. Compile dan runtime harus dijalankan melalui B4J IDE apabila compiler B4J tidak tersedia di lingkungan Codex.
