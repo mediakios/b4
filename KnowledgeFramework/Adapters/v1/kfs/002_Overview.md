@@ -1,0 +1,3 @@
+# Adapters
+
+Placeholder for 002_Overview.md
