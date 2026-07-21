@@ -412,14 +412,14 @@ Acceptance Criteria:
 
 # T013
 
-Status: Ready
+Status: Completed
 
 Objective:
 
 Add `business_dictionary.csv` as the canonical source for business vocabulary,
 variants, and semantic categories.
 
-Future implementation scope (do NOT implement in this commit):
+Implementation scope:
 
 - `src/KnowledgeLoader.bas`
 - `src/KnowledgeRuntime.bas`
@@ -437,10 +437,9 @@ Requirements:
 7. Report malformed rows using the existing load error mechanism.
 8. Preserve backward compatibility.
 9. Do not change the public `KnowledgeEngine` API.
-10. This commit modifies `TASKS.md` only.
 
 Acceptance Criteria:
 
 - T012 remains Completed.
-- T013 becomes the only Ready task.
-- Do not implement T013.
+- T013 becomes Completed.
+- Do not create T014 automatically.

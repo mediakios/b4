@@ -69,6 +69,7 @@ Public Sub LoadKnowledge(BasePath As String) As Boolean
     End If
 
     Dim VariantRows As List = Loader.LoadDelimitedFile("kamus_gaul.csv", ";")
+    Dim BusinessDictionaryRows As List = Loader.LoadDelimitedFile("business_dictionary.csv", ";")
     Dim LoadedNegations As List = Loader.LoadTextLines("negasi.txt")
     Dim ConfigurationLoadErrors As List = Loader.GetLoadErrors
     If ConfigurationLoadErrors.Size > 0 Then
@@ -77,6 +78,7 @@ Public Sub LoadKnowledge(BasePath As String) As Boolean
     End If
 
     Dim Variants As Map = BuildVariantMap(VariantRows)
+    AddBusinessVariants(Variants, BusinessDictionaryRows)
     NegationWords = CopyNormalizedList(LoadedNegations)
     If Normalizer.SetVariantMap(Variants) = False Then Return ConfigurationFailed("KnowledgeNormalizer")
     If Semantic.SetSemanticDictionary(Model.GetFeatureMap) = False Then Return ConfigurationFailed("KnowledgeSemantic")
@@ -201,6 +203,25 @@ Private Sub BuildVariantMap(Rows As List) As Map
         End If
     Next
     Return Result
+End Sub
+
+Private Sub AddBusinessVariants(VariantMap As Map, Rows As List)
+    If Rows.IsInitialized = False Then Return
+    For Each RowValue As Object In Rows
+        Dim Columns As List = RowValue
+        If Columns.IsInitialized And Columns.Size = 6 Then
+            Dim Canonical As String = ValueToString(Columns.Get(0)).Trim.ToLowerCase
+            Dim Status As String = ValueToString(Columns.Get(5)).Trim.ToLowerCase
+            If Status = "active" And Canonical <> "canonical" Then
+                VariantMap.Put(Canonical, Canonical)
+                Dim Variants() As String = Regex.Split(",", ValueToString(Columns.Get(1)))
+                For Each VariantValue As String In Variants
+                    Dim Variant As String = VariantValue.Trim.ToLowerCase
+                    If Variant.Length > 0 Then VariantMap.Put(Variant, Canonical)
+                Next
+            End If
+        End If
+    Next
 End Sub
 
 Private Sub CopyNormalizedList(Source As List) As List

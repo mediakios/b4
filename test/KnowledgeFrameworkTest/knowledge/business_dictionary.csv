@@ -1,1 +1,3 @@
-# Empty: no business metadata is needed by this fixture.
+Canonical;Variants;Kategori;Catatan;Prioritas;Status
+layanan;svc,service;obyek;active dictionary fixture;1;active
+arsip;archive;obyek;inactive dictionary fixture;2;inactive

@@ -62,6 +62,20 @@ Sub AppStart (Args() As String)
         AssertResultMaps("Inference maps", InferenceResult, "temukan_bola", 2, _
             "inference|temukan_bola|2|inference|")
 
+        Dim BusinessDictionaryResult As TKnowledgeResult = Engine.Analyze("SERVICE")
+        AssertCandidateResult("Business dictionary candidate", BusinessDictionaryResult, "layanan_bisnis", 1)
+        AssertEquals("Business dictionary clean text", "layanan", BusinessDictionaryResult.CleanText)
+        AssertEquals("Business dictionary original text", "SERVICE", BusinessDictionaryResult.OriginalText)
+
+        Dim InactiveDictionaryResult As TKnowledgeResult = Engine.Analyze("archive")
+        AssertEquals("Inactive dictionary status", "NA", InactiveDictionaryResult.Status)
+        AssertEquals("Inactive dictionary clean text", "archive", InactiveDictionaryResult.CleanText)
+
+        AssertBusinessDictionaryLoadError("Conflicting business variant", "knowledge_conflict", _
+            "CONFLICTING_VARIANT|business_dictionary.csv|3|svc")
+        AssertBusinessDictionaryLoadError("Malformed business row", "knowledge_malformed", _
+            "INVALID_ROW|business_dictionary.csv|2")
+
         Dim UnmatchedResult As TKnowledgeResult = Engine.Analyze("Teks asing?")
         AssertEquals("Unmatched status", "NA", UnmatchedResult.Status)
         AssertEquals("Unmatched candidate count", 0, UnmatchedResult.CandidateCount)
@@ -76,6 +90,22 @@ Sub AppStart (Args() As String)
     End If
 
     PrintSummary
+End Sub
+
+Private Sub AssertBusinessDictionaryLoadError(TestName As String, FixtureName As String, ExpectedError As String)
+    Dim ValidationModel As KnowledgeModel
+    ValidationModel.Initialize
+    Dim ValidationLoader As KnowledgeLoader
+    ValidationLoader.Initialize
+    ValidationLoader.SetBasePath(ResolveFixturePath(FixtureName))
+    ValidationLoader.LoadAll(ValidationModel)
+    AssertTrue(TestName, ValidationLoader.GetLoadErrors.IndexOf(ExpectedError) > -1)
+End Sub
+
+Private Sub ResolveFixturePath(FixtureName As String) As String
+    Dim ProjectFixturePath As String = File.Combine(File.DirApp, FixtureName)
+    If File.Exists(ProjectFixturePath, "business_dictionary.csv") Then Return ProjectFixturePath
+    Return File.Combine(File.DirApp, "../" & FixtureName)
 End Sub
 
 Private Sub ResolveKnowledgePath As String

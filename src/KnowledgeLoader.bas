@@ -110,7 +110,6 @@ Public Sub LoadAll(Model As KnowledgeModel) As Boolean
 
     AddIntentRulesToModel(StagedModel, IntentRows, "intent.csv")
     ValidateColumnCount(VariantRows, 2, "kamus_gaul.csv")
-    ValidateColumnCount(DictionaryRows, 6, "business_dictionary.csv")
 
     For Each SemanticFile As String In SemanticFiles
         Dim SemanticValues As List = LoadTextLines(SemanticFile)
@@ -118,6 +117,7 @@ Public Sub LoadAll(Model As KnowledgeModel) As Boolean
             AddLoadError("INVALID_SEMANTIC_FILE|" & SemanticFile)
         End If
     Next
+    AddBusinessDictionaryToModel(StagedModel, DictionaryRows, "business_dictionary.csv")
 
     AddRulesToModel(StagedModel, RuleRows, "rules.txt")
     AddInferenceRulesToModel(StagedModel, InferenceRows, "Inferensi.txt")
@@ -256,6 +256,75 @@ Private Sub ValidateColumnCount(Rows As List, ExpectedCount As Int, FileName As 
         Dim Columns As List = Rows.Get(RowIndex)
         If Columns.Size <> ExpectedCount Then AddLoadError("INVALID_ROW|" & FileName & "|" & (RowIndex + 1))
     Next
+End Sub
+
+Private Sub AddBusinessDictionaryToModel(Model As KnowledgeModel, Rows As List, FileName As String)
+    Dim VariantOwners As Map
+    VariantOwners.Initialize
+    For RowIndex = 0 To Rows.Size - 1
+        Dim Columns As List = Rows.Get(RowIndex)
+        If Columns.Size <> 6 Then
+            AddLoadError("INVALID_ROW|" & FileName & "|" & (RowIndex + 1))
+        Else If IsBusinessDictionaryHeader(Columns) = False Then
+            Dim Status As String = ValueToString(Columns.Get(5)).Trim.ToLowerCase
+            If Status = "active" Then
+                Dim Canonical As String = ValueToString(Columns.Get(0)).Trim.ToLowerCase
+                Dim Category As String = ValueToString(Columns.Get(2)).Trim.ToLowerCase
+                If Canonical.Length = 0 Or IsApprovedSemanticCategory(Category) = False Then
+                    AddLoadError("INVALID_ROW|" & FileName & "|" & (RowIndex + 1))
+                Else
+                    RegisterBusinessVariant(VariantOwners, Canonical, Canonical, FileName, RowIndex + 1)
+                    Dim Variants() As String = Regex.Split(EscapeRegexLiteral(","), ValueToString(Columns.Get(1)))
+                    For Each VariantValue As String In Variants
+                        Dim Variant As String = VariantValue.Trim.ToLowerCase
+                        If Variant.Length > 0 Then RegisterBusinessVariant(VariantOwners, Variant, Canonical, FileName, RowIndex + 1)
+                    Next
+                    AddSemanticValue(Model, Category, Canonical)
+                End If
+            Else If Status <> "inactive" Then
+                AddLoadError("INVALID_ROW|" & FileName & "|" & (RowIndex + 1))
+            End If
+        End If
+    Next
+End Sub
+
+Private Sub RegisterBusinessVariant(VariantOwners As Map, Variant As String, Canonical As String, FileName As String, RowNumber As Int)
+    If VariantOwners.ContainsKey(Variant) Then
+        If VariantOwners.Get(Variant) <> Canonical Then AddLoadError("CONFLICTING_VARIANT|" & FileName & "|" & RowNumber & "|" & Variant)
+    Else
+        VariantOwners.Put(Variant, Canonical)
+    End If
+End Sub
+
+Private Sub AddSemanticValue(Model As KnowledgeModel, Category As String, Canonical As String)
+    Dim FeatureValues As List
+    FeatureValues.Initialize
+    Dim FeatureMap As Map = Model.GetFeatureMap
+    If FeatureMap.ContainsKey(Category) Then
+        Dim ExistingValues As List = FeatureMap.Get(Category)
+        For Each ExistingValue As Object In ExistingValues
+            FeatureValues.Add(ExistingValue)
+        Next
+    End If
+    If FeatureValues.IndexOf(Canonical) = -1 Then FeatureValues.Add(Canonical)
+    Model.SetFeature(Category, FeatureValues)
+End Sub
+
+Private Sub IsBusinessDictionaryHeader(Columns As List) As Boolean
+    Return ValueToString(Columns.Get(0)).Trim.ToLowerCase = "canonical" And _
+        ValueToString(Columns.Get(1)).Trim.ToLowerCase = "variants" And _
+        ValueToString(Columns.Get(2)).Trim.ToLowerCase = "kategori" And _
+        ValueToString(Columns.Get(5)).Trim.ToLowerCase = "status"
+End Sub
+
+Private Sub IsApprovedSemanticCategory(Category As String) As Boolean
+    Return Category = "obyek" Or Category = "problem" Or Category = "goal" Or _
+        Category = "aksi" Or Category = "request" Or Category = "keadaan" Or Category = "context"
+End Sub
+
+Private Sub ValueToString(Value As Object) As String
+    If Value = Null Then Return ""
+    Return Value
 End Sub
 
 Private Sub RuleExists(Model As KnowledgeModel, Candidate As TRule) As Boolean

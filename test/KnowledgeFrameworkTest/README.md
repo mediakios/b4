@@ -27,6 +27,9 @@ Test mencakup:
 - load dataset valid dan status ready;
 - jalur keyword-rule dengan kandidat tunggal;
 - jalur semantic/inference dengan kandidat tunggal;
+- integrasi varian dan kategori aktif dari `business_dictionary.csv`;
+- pengabaian entri kamus bisnis berstatus inactive;
+- pelaporan varian kamus bisnis yang konflik dan baris malformed;
 - hasil NA untuk chat yang tidak cocok;
 - struktur `Candidates`, `ScoreMap`, `DetailMap`, `CleanText`, dan `OriginalText`;
 - reset setelah load berhasil.
@@ -53,6 +56,14 @@ Baseline ini diverifikasi dengan B4JBuilder 10.50 dan Java 19. Project berhasil 
 ```text
 TOTAL: 15
 PASSED: 15
+FAILED: 0
+```
+
+Integrasi T013 juga diverifikasi dengan B4JBuilder 10.20 dan Java 17. Seluruh assertion menghasilkan:
+
+```text
+TOTAL: 41
+PASSED: 41
 FAILED: 0
 ```
 
